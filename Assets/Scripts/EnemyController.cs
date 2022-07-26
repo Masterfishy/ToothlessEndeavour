@@ -26,7 +26,6 @@ public class EnemyController : MonoBehaviour
     private void OnEnable()
     {
         pathTargetPosition = transform.position;
-        findNewPath = true;
     }
 
     private void Update()
@@ -72,23 +71,31 @@ public class EnemyController : MonoBehaviour
             yield break;
         }
 
-        pathTargetIndex = 0;
+        print("Follow path...");
 
-        while (pathTargetIndex < path.Length)
+        pathTargetIndex = 0;
+        pathTargetPosition = transform.position;
+
+        float distance = Vector3.Distance(transform.position, pathTargetPosition);
+
+        while (pathTargetIndex < path.Length || distance >= minDistanceToPathTarget)
         {
-            float distance = Vector3.Distance(transform.position, pathTargetPosition);
+            print($"Distance {distance}");
 
             if (distance < minDistanceToPathTarget)
             {
                 pathTargetPosition = path[pathTargetIndex];
-                //steering.MoveTo(pathTargetPosition);
+                steering.MoveTowards(pathTargetPosition);
 
                 pathTargetIndex++;
             }
 
+            distance = Vector3.Distance(transform.position, pathTargetPosition);
+
             yield return new WaitForEndOfFrame();
         }
 
+        steering.Stop();
         Debug.Log("Finished following the path!");
     }
 
@@ -114,7 +121,7 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        Gizmos.color = Color.white;
+        Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(pathTargetPosition, minDistanceToPathTarget);
     }
 }
