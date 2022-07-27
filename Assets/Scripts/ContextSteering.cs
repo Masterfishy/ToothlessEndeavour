@@ -46,7 +46,6 @@ public class ContextSteering : MonoBehaviour
             StartCoroutine(Steering());
         }
 
-        print($"Move towards {position}");
         interestTarget = position;
     }
 
@@ -88,8 +87,6 @@ public class ContextSteering : MonoBehaviour
 
     private IEnumerator Steering()
     {
-        print("Steering...");
-
         while (isActiveAndEnabled && isMoving)
         {
             SetInterest();

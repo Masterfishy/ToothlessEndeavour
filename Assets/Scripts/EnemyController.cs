@@ -71,7 +71,7 @@ public class EnemyController : MonoBehaviour
             yield break;
         }
 
-        print("Follow path...");
+        //print("Follow path...");
 
         pathTargetIndex = 0;
         pathTargetPosition = path[pathTargetIndex];
@@ -81,8 +81,6 @@ public class EnemyController : MonoBehaviour
 
         while (pathTargetIndex < path.Length - 1 || distance >= minDistanceToPathTarget)
         {
-            print($"Distance {distance}");
-
             if (distance < minDistanceToPathTarget)
             {
                 pathTargetIndex++;
@@ -97,7 +95,7 @@ public class EnemyController : MonoBehaviour
         }
 
         steering.Stop();
-        Debug.Log("Finished following the path!");
+        //Debug.Log("Finished following the path!");
     }
 
     private void OnDrawGizmos()
