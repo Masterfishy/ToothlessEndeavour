@@ -74,20 +74,21 @@ public class EnemyController : MonoBehaviour
         print("Follow path...");
 
         pathTargetIndex = 0;
-        pathTargetPosition = transform.position;
+        pathTargetPosition = path[pathTargetIndex];
+        steering.MoveTowards(pathTargetPosition);
 
         float distance = Vector3.Distance(transform.position, pathTargetPosition);
 
-        while (pathTargetIndex < path.Length || distance >= minDistanceToPathTarget)
+        while (pathTargetIndex < path.Length - 1 || distance >= minDistanceToPathTarget)
         {
             print($"Distance {distance}");
 
             if (distance < minDistanceToPathTarget)
             {
+                pathTargetIndex++;
+
                 pathTargetPosition = path[pathTargetIndex];
                 steering.MoveTowards(pathTargetPosition);
-
-                pathTargetIndex++;
             }
 
             distance = Vector3.Distance(transform.position, pathTargetPosition);
@@ -106,19 +107,14 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-        for (int i = pathTargetIndex; i < path.Length; i++)
+        for (int i = 0; i < path.Length; i++)
         {
             Gizmos.color = pathGizmoColor;
             Gizmos.DrawSphere(path[i], 0.05f);
 
-            if (i == pathTargetIndex)
-            {
-                Gizmos.DrawLine(transform.position, path[i]);
-            }
-            else
-            {
-                Gizmos.DrawLine(path[i - 1], path[i]);
-            }
+            if (i == 0) continue;
+
+            Gizmos.DrawLine(path[i - 1], path[i]);
         }
 
         Gizmos.color = Color.black;

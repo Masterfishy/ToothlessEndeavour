@@ -8,12 +8,15 @@ public class ContextSteering : MonoBehaviour
     public LayerMask interestLayer;
     public LayerMask dangerLayer;
 
+    public bool debug;
+
     public float speed;
     public float interestRange;
     public float dangerRange;
     public int numRays;
 
-    public bool debug;
+    [Header("Weights")]
+    public float dangerWeight;
 
     private new Rigidbody2D rigidbody;
 
@@ -128,7 +131,7 @@ public class ContextSteering : MonoBehaviour
             if (result)
             {
                 float weight = 1 - (result.distance / dangerRange);
-                dangers[i] = weight;
+                dangers[i] = weight * dangerWeight;
             }
         }
     }

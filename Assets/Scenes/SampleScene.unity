@@ -435,6 +435,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diagonalMoveCost: 14
   adjacentMoveCost: 10
+  debug: 0
+  regPathColor: {r: 0, g: 1, b: 0.051922083, a: 1}
+  simPathColor: {r: 1, g: 0, b: 0.90591764, a: 1}
+  regPath: []
+  simPath: []
 --- !u!114 &579334389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -677,10 +682,12 @@ MonoBehaviour:
   dangerLayer:
     serializedVersion: 2
     m_Bits: 64
-  speed: 10
+  debug: 1
+  speed: 5
   interestRange: 0
   dangerRange: 1
   numRays: 16
+  dangerWeight: 2
 --- !u!4 &1257730968
 Transform:
   m_ObjectHideFlags: 0
@@ -760,7 +767,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 792748709}
   minDistanceToPathTarget: 0.66
-  pathGizmoColor: {r: 0.8018868, g: 0.3251085, b: 0.025720844, a: 1}
+  pathGizmoColor: {r: 0, g: 0, b: 0, a: 1}
   minNewPathDistance: 1
 --- !u!50 &1257730971
 Rigidbody2D:

@@ -162,4 +162,17 @@ public class MapManager : Singleton<MapManager>
 
         return default;
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (Application.isPlaying)
+        {
+            foreach (Vector3Int pos in map.Keys)
+            {
+                Gizmos.color = map[pos].tileData.walkable ? Color.green : Color.red;
+
+                Gizmos.DrawSphere(pos, 0.05f);
+            }
+        }
+    }
 }

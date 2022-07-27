@@ -11,6 +11,13 @@ public class Pathfinding : MonoBehaviour
     public int diagonalMoveCost = 14;
     public int adjacentMoveCost = 10;
 
+    [Header("Debug")]
+    public bool debug;
+    public Color regPathColor;
+    public Color simPathColor;
+    public Vector3[] regPath;
+    public Vector3[] simPath;
+
     /// <summary>
     /// Starts a coroutine to find a path from start to target.
     /// </summary>
@@ -111,6 +118,21 @@ public class Pathfinding : MonoBehaviour
             currentNode = currentNode.parent;
         }
 
+        path.Add(startNode);
+
+        if (debug)
+        {
+            regPath = GeneratePath(path);
+
+            Array.Reverse(regPath);
+
+            simPath = SimplifyPath(path);
+
+            Array.Reverse(simPath);
+
+            return simPath;
+        }
+
         Vector3[] waypoints = SimplifyPath(path);
         Array.Reverse(waypoints);
 
@@ -123,7 +145,7 @@ public class Pathfinding : MonoBehaviour
 
         for (int i = 0; i < path.Count; i++)
         {
-            waypoints.Add(path[i].position);
+            waypoints.Add(path[i].position + Vector3.one * 0.5f);
         }
 
         return waypoints.ToArray();
@@ -145,7 +167,7 @@ public class Pathfinding : MonoBehaviour
                                                path[i].position.y - path[i + 1].position.y);
             if (directionNew != directionOld)
             {
-                waypoints.Add(new Vector3(path[i].position.x + 0.5f, path[i].position.y + 0.5f));
+                waypoints.Add(path[i].position + Vector3.one * 0.5f);
             }
 
             directionOld = directionNew;
@@ -171,5 +193,29 @@ public class Pathfinding : MonoBehaviour
         }
 
         return diagonalMoveCost * _distX + adjacentMoveCost * (_distY - _distX);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (!debug && Application.isEditor)
+        {
+            return;
+        }
+
+        for (int i = 1; i < regPath.Length; i++)
+        {
+            Gizmos.color = regPathColor;
+            Gizmos.DrawSphere(regPath[i], 0.05f);
+
+            Gizmos.DrawLine(regPath[i - 1], regPath[i]);
+        }
+
+        for (int i = 1; i < simPath.Length; i++)
+        {
+            Gizmos.color = simPathColor;
+            Gizmos.DrawSphere(simPath[i], 0.05f);
+
+            Gizmos.DrawLine(simPath[i - 1], simPath[i]);
+        }
     }
 }
